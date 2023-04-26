@@ -138,6 +138,35 @@ module.exports = (db) => {
       // res.send(rows.skip(Skip));
     });
   });
+  app.get("/rides", async (req, res) => {
+    try {
+      db.all("SELECT * FROM Rides", function (err, rows) {
+        // let page = Number(req.query.page) || 1;
+        // let limit = Number(req.query.limit) || 3;
+        if (err) {
+          return res.send({
+            error_code: "SERVER_ERROR",
+            message: "Unknown error",
+          });
+        }
+
+        if (rows.length === 0) {
+          return res.send({
+            error_code: "RIDES_NOT_FOUND_ERROR",
+            message: "Could not find any rides",
+          });
+        }
+        res.send(rows.slice(Skip, Skip + limit));
+        // res.send(rows.skip(Skip));
+      });
+    } catch (err) {
+      console.error(err);
+      res.send({
+        error_code: "SERVER_ERROR",
+        message: "Unknown error",
+      });
+    }
+  });
 
   app.get("/rides/:id", (req, res) => {
     db.all(
