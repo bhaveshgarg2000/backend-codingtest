@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha tests",
+    "test": "nyc index.js",
+    "prepush": "npm test",
     "start": "node index.js"
   },
   "keywords": [
@@ -21,7 +22,13 @@
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {
+    "eslint": "^8.39.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.32.2",
     "mocha": "^10.2.0",
-    "supertest": "^6.3.3"
+    "nyc": "^15.1.0",
+    "pre-push": "^0.1.4",
+    "supertest": "^6.3.3",
+    "winston": "^3.8.2"
   }
 }
