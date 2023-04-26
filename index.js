@@ -17,7 +17,7 @@ const db = new sqlite3.Database(":memory:");
 const buildSchemas = require("./src/schemas");
 
 const logger = require("./logger");
-
+  
 logger.info("This is an info message");
 logger.error("This is an error message");
 
