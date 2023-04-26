@@ -1,0 +1,21 @@
+config:
+  target: "http://localhost:8010"
+  phases:
+    - duration: 30
+      arrivalRate: 100
+  processor: "./node_modules/artillery-dummy-processor"
+scenarios:
+  - flow:
+      - get:
+          url: "/rides"
+  - flow:
+      - post:
+          url: "/rides"
+          json:
+            startLat: -37.832771
+            startLong: 144.865276
+            endLat: -38.175226
+            endLong: 144.300210
+            riderName: "John Smith"
+            driverName: "Bob"
+            driverVehicle: "Toyota Camry"
