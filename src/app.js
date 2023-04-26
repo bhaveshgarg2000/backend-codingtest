@@ -1,3 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable prefer-const */
+/* eslint-disable comma-dangle */
+/* eslint-disable space-before-function-paren */
+/* eslint-disable indent */
+/* eslint-disable no-invalid-this */
+/* eslint-disable max-len */
+/* eslint-disable quotes */
 "use strict";
 
 const express = require("express");
@@ -19,7 +27,10 @@ module.exports = (db) => {
     const driverVehicle = req.body.driver_vehicle;
 
     if (
-      startLatitude < -90 ||  startLatitude > 90 ||  startLongitude < -180 || startLongitude > 180
+      startLatitude < -90 ||
+      startLatitude > 90 ||
+      startLongitude < -180 ||
+      startLongitude > 180
     ) {
       return res.send({
         error_code: "VALIDATION_ERROR",
@@ -29,7 +40,10 @@ module.exports = (db) => {
     }
 
     if (
-      endLatitude < -90 ||  endLatitude > 90 ||  endLongitude < -180 ||    endLongitude > 180
+      endLatitude < -90 ||
+      endLatitude > 90 ||
+      endLongitude < -180 ||
+      endLongitude > 180
     ) {
       return res.send({
         error_code: "VALIDATION_ERROR",
@@ -59,7 +73,7 @@ module.exports = (db) => {
       });
     }
 
-    var values = [
+    const values = [
       req.body.start_lat,
       req.body.start_long,
       req.body.end_lat,
@@ -69,6 +83,7 @@ module.exports = (db) => {
       req.body.driver_vehicle,
     ];
 
+    // eslint-disable-next-line no-unused-vars
     const result = db.run(
       "INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)",
       values,
@@ -99,7 +114,13 @@ module.exports = (db) => {
   });
 
   app.get("/rides", (req, res) => {
+    const page = req.query;
+    const limit = req.query;
+    const Skip = (page - 1) * 1;
+
     db.all("SELECT * FROM Rides", function (err, rows) {
+      // let page = Number(req.query.page) || 1;
+      // let limit = Number(req.query.limit) || 3;
       if (err) {
         return res.send({
           error_code: "SERVER_ERROR",
@@ -113,8 +134,8 @@ module.exports = (db) => {
           message: "Could not find any rides",
         });
       }
-
-      res.send(rows);
+      res.send(rows.slice(Skip, Skip + limit));
+      // res.send(rows.skip(Skip));
     });
   });
 
